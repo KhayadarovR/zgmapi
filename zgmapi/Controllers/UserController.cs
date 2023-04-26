@@ -1,25 +1,24 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using zgmapi.Models;
+using AppContext = zgmapi.Models.AppContext;
 
-namespace zgmapi.Controllers
+namespace zgmapi.Controllers;
+
+[Route("api/users")]
+[ApiController]
+public class UserController : ControllerBase
 {
-    [Route("api/[controller]s")]
-    [ApiController]
-    public class UserController : ControllerBase
+    private readonly AppContext _context;
+    public UserController(AppContext context)
     {
+        _context = context;
+    }
 
-        private static List<User> _users = new List<User>()
-        {
-            new User() { Id = 1, Name = "raz"},
-            new User() { Id = 2, Name = "rus"},
-        };
-
-        // GET users/
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok(_users);
-        }
+    // GET users/
+    [HttpGet]
+    public IActionResult Get()
+    {
+        return Ok(_context.Users);
     }
 }
