@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using zgmapi.Models;
-using AppContext = zgmapi.Models.AppContext;
 
 namespace zgmapi.Controllers;
 
@@ -9,8 +8,8 @@ namespace zgmapi.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly AppContext _context;
-    public UserController(AppContext context)
+    private readonly AppDbContext _context;
+    public UserController(AppDbContext context)
     {
         _context = context;
     }

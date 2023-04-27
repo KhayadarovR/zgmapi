@@ -2,12 +2,12 @@
 
 namespace zgmapi.Models;
 
-public class AppContext : DbContext
+public class AppDbContext : DbContext
 {
     public DbSet<Role> Roles { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
 
-    public AppContext(DbContextOptions<AppContext> options): base(options) { }
+    public AppDbContext(DbContextOptions<AppDbContext> options): base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
