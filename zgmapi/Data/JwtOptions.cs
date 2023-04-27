@@ -1,6 +1,7 @@
 ﻿
 using System.Configuration;
 using System.Text;
+using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.IdentityModel.Tokens;
 using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
@@ -10,9 +11,13 @@ public class JwtOptions
 {
     public const string ISSUER = "zgmapi"; // издатель токена
     public const string AUDIENCE = "zgmclient"; // потребитель токена
-    
-    public static SymmetricSecurityKey GetSymmetricSecurityKey(string key)
+    private static string KEY = "default";
+    public static void SetKey(string configKey)
     {
-        return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+        KEY = configKey;
+    }
+    public static SymmetricSecurityKey GetSymmetricSecurityKey()
+    {
+        return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
     }
 }

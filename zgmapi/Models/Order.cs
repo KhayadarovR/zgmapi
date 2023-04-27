@@ -6,7 +6,8 @@ namespace zgmapi.Models;
 public class Order
 {
     [Key]
-    public long Id { get; } 
+    public long Id { get; set; } 
+    
     [Required]
     public long UserId { get; set; }
     public User User { get; set; }

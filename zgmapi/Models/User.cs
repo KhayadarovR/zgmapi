@@ -1,11 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 namespace zgmapi.Models;
 
 public class User
 {
     [Key]
+    [JsonIgnore]
     public long Id { get; set; }
     public string? Name { get; set; }
     public string? LastName { get; set; }
@@ -16,7 +19,9 @@ public class User
 
     [Required]
     public string Password { get; set; }
+    [JsonIgnore]
     public int RoleId { get; set; }
-    public virtual Role Role { get; set; }
+    [JsonIgnore]
+    public virtual Role? Role { get; set; }
 
 }

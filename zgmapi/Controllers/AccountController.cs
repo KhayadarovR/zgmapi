@@ -1,23 +1,27 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using zgmapi.Models;
+using zgmapi.Services;
 
 namespace zgmapi.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/account")]
 [ApiController]
 public class AccountController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly AccountServices _account;
 
-    public AccountController(AppDbContext context)
+    public AccountController(AppDbContext context, AccountServices _account)
     {
         _context = context;
+        this._account = _account;
     }
 
     // GET: api/Account
@@ -84,19 +88,12 @@ public class AccountController : ControllerBase
     // POST: api/Account
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<User>> PostUser(User user)
+    public async Task<string> PostUser(User user)
     {
-        user.RoleId = 2;
+        var jwt = await _account.Register(user);
         
-        if (_context.Users == null)
-        {
-            return Problem("Entity set 'AppContext.Users'  is null.");
-        }
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction("GetUser", new { id = user.Id }, user);
-    }
+        return new JwtSecurityTokenHandler().WriteToken(jwt);
+    }   
 
     // DELETE: api/Account/5
     [HttpDelete("{id}")]

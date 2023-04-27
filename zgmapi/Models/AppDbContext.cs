@@ -6,6 +6,13 @@ public class AppDbContext : DbContext
 {
     public DbSet<Role> Roles { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Status> Status { get; set; } = null!;
+    public DbSet<Category> Category { get; set; } = null!;
+    public DbSet<Product> Product { get; set; } = null!;
+    public DbSet<ProductItem> ProductItem { get; set; } = null!;
+    public DbSet<Stock> Stock { get; set; } = null!;
+    public DbSet<Order> Order { get; set; } = null!;
+    
 
     public AppDbContext(DbContextOptions<AppDbContext> options): base(options) { }
 
