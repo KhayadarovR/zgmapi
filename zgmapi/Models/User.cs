@@ -19,7 +19,6 @@ public class User
 
     [Required]
     public string Password { get; set; }
-    [JsonIgnore]
     public int RoleId { get; set; }
     [JsonIgnore]
     public virtual Role? Role { get; set; }
