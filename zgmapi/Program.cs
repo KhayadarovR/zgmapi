@@ -35,13 +35,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:3000", "https://localhost:3000");
-        });
+builder.Services.AddCors(options => {
+ 
+    options.AddPolicy("dev", builder => builder
+        .WithOrigins("http://localhost:3000")
+        .WithHeaders("Token", "Accept", "Content-Type", "Referer", "sec-ch-ua", "sec-ch-ua-mobile", "sec-ch-ua-platform"
+        , "User-Agent")
+        .AllowAnyMethod());
+ 
+    options.AddPolicy("prod", builder => builder
+        .WithOrigins("https://localhost:3000")
+        .AllowAnyHeader()
+        .AllowAnyMethod());
 });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -64,7 +69,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors();
+app.UseCors("dev");
 
 app.UseAuthentication();
 app.UseAuthorization();
