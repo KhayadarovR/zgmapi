@@ -18,13 +18,14 @@ public class AccountServices
 
     public async Task<JwtSecurityToken> Register(User user)
     {
-        user.RoleId = 1;
+        user.RoleId = DefaultRoles.User;
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
-        
-        var newUser = await _context.Users.FirstAsync(u => u.Phone == user.Phone);
-        var claims = SetClaims(newUser);
+
+        var newUser = await _context.Users.Include(m => m.Role).
+                                            FirstAsync(u => u.Phone == user.Phone);
+        var claims = GetClaimsFor(newUser);
         var jwt = CreateJwt(claims);    
         return jwt;
     }
@@ -42,13 +43,13 @@ public class AccountServices
         return jwt;
     }
 
-    private List<Claim> SetClaims(User user)
+    private List<Claim> GetClaimsFor(User user)
     {
         var claims = new List<Claim>
         {
             new Claim(MyClaimTypes.Phone, user.Phone),
             new Claim(MyClaimTypes.Id, user.Id.ToString()),
-            new Claim(MyClaimTypes.Role, user.RoleId.ToString())
+            new Claim(MyClaimTypes.RoleName, user.Role.Name)
         };
         return claims;
     }

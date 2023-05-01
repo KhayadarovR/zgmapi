@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using zgmapi.Data;
 
 namespace zgmapi.Models;
 
@@ -15,12 +16,12 @@ public class AppDbContext : DbContext
     
 
     public AppDbContext(DbContextOptions<AppDbContext> options): base(options) { }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Role>().HasData(
-            new Role {Id = 1, Name = "admin" },
-            new Role() {Id = 2, Name = "Пользователь"}
+            new Role() {Id = 1, Name = DefaultRoles.AdminString},
+            new Role() {Id = 2, Name = DefaultRoles.UserString}
         );
         
         modelBuilder.Entity<Stock>().HasData(
@@ -51,8 +52,8 @@ public class AppDbContext : DbContext
 
 
         modelBuilder.Entity<User>().HasData(
-            new User { Id = 1, Name = "admin", Phone = "777", Password = "admin", RoleId = 1 },
-            new User { Id = 2, Name = "Александ", Phone = "888", Password = "test", RoleId = 2, LastName = "Вотяков"}
+            new User { Id = 1, Name = "admin", Phone = "777", Password = "admin", RoleId = DefaultRoles.Admin },
+            new User { Id = 2, Name = "Александ", Phone = "888", Password = "test", RoleId = DefaultRoles.User, LastName = "Вотяков"}
         );
     }
 }
