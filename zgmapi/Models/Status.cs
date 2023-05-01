@@ -6,7 +6,8 @@ public class Status
 {
     [Key]
     public int Id { get; set; }
-    [Required] public string Current { get; set; }
+    [StringLength(255)]
+    [Required] public string Current { get; set; } = null!;
     
     public virtual ICollection<ProductItem> ProductItems { get; }
 }

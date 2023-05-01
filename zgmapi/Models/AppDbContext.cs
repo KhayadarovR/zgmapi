@@ -19,10 +19,40 @@ public class AppDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder
+            .Entity<Category>()
+            .HasIndex(t => t.Title)
+            .IsUnique();
+        
+        modelBuilder
+            .Entity<Role>()
+            .HasIndex(t => t.Name)
+            .IsUnique();
+        
+        modelBuilder
+            .Entity<Stock>()
+            .HasIndex(t => t.Title)
+            .IsUnique();
+        
+        modelBuilder
+            .Entity<Product>()
+            .HasIndex(t => t.Title)
+            .IsUnique();
+        
+        modelBuilder
+            .Entity<Status>()
+            .HasIndex(t => t.Current)
+            .IsUnique();
+        
         modelBuilder.Entity<Role>().HasData(
             new Role() {Id = 1, Name = DefaultRoles.AdminString},
             new Role() {Id = 2, Name = DefaultRoles.UserString}
         );
+        
+        modelBuilder
+            .Entity<User>()
+            .HasIndex(t => t.Phone)
+            .IsUnique();
         
         modelBuilder.Entity<Stock>().HasData(
             new Stock() {Id = 1, Title = "Сухой склад", Address = "Проспект Чулман, 40, Набережные Челны, РТ", Descriptions = "Относительная влажность в помещении должна составлять от 50 до 70%, температура – от +5 до +18"}

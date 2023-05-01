@@ -10,15 +10,18 @@ public class User
     [Key]
     [JsonIgnore]
     public long Id { get; set; }
+    [StringLength(255)]
     public string? Name { get; set; }
+    [StringLength(255)]
     public string? LastName { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Вы обязаны заполнить поле")]
     [StringLength(20, ErrorMessage = "Не правильный номер")]
-    public string Phone { get; set; }
+    public string Phone { get; set; } = null!;
 
-    [Required]
-    public string Password { get; set; }
+    [Required(ErrorMessage = "Вы обязаны заполнить поле")]
+    [StringLength(255)]
+    public string Password { get; set; } = null!;
     public int RoleId { get; set; }
     [JsonIgnore]
     public virtual Role? Role { get; set; }

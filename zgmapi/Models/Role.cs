@@ -7,8 +7,8 @@ public class Role
     [Key]
 
     public int Id { get; set; }
-    [Required]
-    public string Name { get; set; }
+    [StringLength(255)]
+    [Required] public string Name { get; set; } = null!;
     
     public virtual ICollection<User> Users { get; }
 }
